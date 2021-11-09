@@ -1,0 +1,268 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## What is Hashing
+
+						Etymology: (maybe) The term "hash" offers a natural analogy with its non-technical meaning (to "chop" or "make a mess" out of something).
+
+						or more concretely:
+
+						A hash function is any function that can be used to map data of arbitrary size to fixed-size values.
+
+						---
+
+						## Properties of a good hashing function
+
+						1. It should be very efficient to compute.
+						2. The function needs to be determinist; you get the same output for the same input each time it is run.
+						3. It should avoid collisions, no two inputs should produce the same output. If collision -> Bucketing.
+						4. For encryption purposes, the output should not give any indication of the input
+
+						---
+
+						## Example of a hash function
+
+						https://en.wikipedia.org/wiki/Hash_function
+
+						<iframe frameborder="0" width="100%" height="500px" src="https://replit.com/@rankers/hashing?embed=true"></iframe>
+
+						---
+
+						## Examples
+
+						* Modulo
+						* MD5 (Message Digest)
+						* SHA (Secure Hashing Algorithm), SHA1, SHA2, SHA3, SHA-256
+						* BLAKE2s
+						* RIPEMD-160
+						
+						---
+
+						Applications
+
+						* Document integrity
+						* Generate unique (almost) IDs
+						* Git - Every time you commit something you get a lovely big hash value
+						* Pseudorandom number generation
+						* Proof of work algorithm
+						* NFTs / Crypto Currency's
+
+						![Dogecoin](./assets/dogecoin.png)
+
+						---
+
+						## Cryptographic hashing vs just normal hashing
+
+						A cryptographic hash function aims to guarantee a number of security properties.
+
+						1. Most importantly that it's hard to find collisions 
+						2. Output appears random 
+
+						---
+
+						## Caching
+
+						There are only two hard things in Computer Science: cache invalidation and naming things.
+
+						-- Phil Karlton
+
+						Premature optimization is the root of all evil 
+
+						-- Donald Knuth
+
+						---
+
+						## What is a cache
+
+						A cache is any data store that can store and retrieve data quickly for future use, enabling faster response times and decreasing load on other parts of your system.
+
+						---
+
+						## Why and how we cache
+
+						Performance
+
+						Caches can work in multiple ways:
+
+						1. Store data closer to where it is likely to be needed
+						2. Reduce repeated calculations / queries / requests to other services
+
+						Usually want to measure cache 'hit-rate'
+
+						---
+
+
+						## Examples
+
+						* DNS - TTL
+						* Browser - Etags
+						* Harddrives - Disk Buffer or Cahce Buffer
+						* File system cache / CDNs - Cloudflare, Cloudfront
+						* In-memory application cache - Spring-context, EHCache, just use a map of key / values
+						* Database cache - integrated to db engine, built-in write-through capabilitie
+						* Distributed cache - Memcache / Redis
+
+						---
+
+						## Side track on memoization
+
+						Do fibonacci memoization
+						https://codeburst.io/understanding-memoization-in-3-minutes-2e58daf33a19
+
+						---
+
+						## Caching strategies
+
+						1. Optimal Replacement( Replace the block which is no longer needed in the future.)
+						2. First in First out(FIFO)
+						3. Least recently used (LRU)
+						4. Random Selection
+
+						## Cache consistency
+
+						1. Write through vs write back
+						
+						---
+
+						## Consistent Hashing
+
+						It may be necessary or desirable to split a hash table into several parts, hosted by different servers.
+						
+						The objects (and their keys) are distributed among several servers, hence the name.
+						
+						---
+
+						## What systems are using consistent hashing
+						
+						Dynamo DBB, Memcache, Redis
+						
+						---
+
+						## How
+						
+						Hash modulo the number of servers
+						
+						Key | Hash | Hash mod 3
+						carrot cake | xxxx | 0
+						coffee cake | xxxx | 1
+						scone |  xxxx | 2
+						pastel de nata | xxxx | 2
+						muffin | xxxx | 0
+						
+						---
+
+						## Rehashing problem 
+						
+						What happens when the number of server changes. With app servers with no state they can quite happily scale up / down. Doesn't matter really
+						
+						Key redistribution
+						
+						Issue with approach above is most hashes modulo N will change, so most keys 
+						
+						Key | Hash | Hash mod 2
+						carrot cake | xxxx | 1
+						coffee cake | xxxx | 0
+						scone |  xxxx | 0
+						pastel de nata | xxxx | 1
+						muffin | xxxx | 0
+						
+						Only 1 key is the same
+						
+						Key | Hash | Hash mod 3
+						carrot cake | xxxx | 0
+						coffee cake | xxxx | 1
+						scone |  xxxx | 2
+						pastel de nata | xxxx | 2
+						muffin | xxxx | 0
+
+						---
+
+						## Hash ring
+						
+						Distribition scheme which doesn't rely on the number of servers, means key redistribution is minimized.
+						
+						Introducing the hash ring, this is an abstract circle which you map your servers to.
+
+						Key | Hash | Angle
+						carrot cake | xxxx | 72
+						coffee cake | xxxx | 140
+						scone |  xxxx | 230
+						pastel de nata | xxxx | 300
+						muffin | xxxx | 360
+						
+						---
+
+						## Hash ring 2
+						
+						Now assign your servers to the same ring
+						
+						Key | Hash | Angle
+						carrot cake | xxxx | 72
+						coffee cake | xxxx | 140
+						scone |  xxxx | 230
+						pastel de nata | xxxx | 300
+						muffin | xxxx | 360
+						A | xxxx | 
+						B | xxxx |
+						C | xxxx |
+						
+						Resources:
+						
+						https://medium.com/system-design-blog/consistent-hashing-b9134c8a9062
+						https://www.toptal.com/big-data/consistent-hashing
+					</textarea>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
+
+
+<!-- 
+
+
+Cutting Room Floor / Resources:
+	
+
+Crypto
+	
+Rainbow tables -https://en.wikipedia.org/wiki/Rainbow_table why we use salts
+
+http://torvalds.cs.longwood.edu/courses/cmsc461/s20/files/josh.pdf 
+https://aws.amazon.com/caching/database-caching/
+https://www.baeldung.com/spring-cache-tutorial
+
+-->
