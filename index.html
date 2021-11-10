@@ -8,7 +8,7 @@
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="dist/theme/white.css">
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
@@ -31,6 +31,16 @@
 
 						---
 
+						## Hash Tables
+
+						<img class="r-stretch" src="./assets/hashing-Hash-Table.drawio.png"/>
+
+						Hash values are usually used to index a fixed-size table called a hash table. Where you can then go and find some data.
+						<!-- <iframe frameborder="0" width="100%" height="500px" src="https://replit.com/@rankers/hashing?embed=true"></iframe> -->
+
+						---
+						
+
 						## Properties of a good hashing function
 
 						1. It should be very efficient to compute.
@@ -40,11 +50,12 @@
 
 						---
 
-						## Example of a hash function
+						## Clashing and Performance
 
-						https://en.wikipedia.org/wiki/Hash_function
+						<img class="r-stretch" src="./assets/hashing-Hash-Table-Clash.drawio.png"/>
 
-						<iframe frameborder="0" width="100%" height="500px" src="https://replit.com/@rankers/hashing?embed=true"></iframe>
+						Hashh Tabble: Best ois O(1)
+						Array Search: O(N)
 
 						---
 
@@ -56,6 +67,7 @@
 						* BLAKE2s
 						* RIPEMD-160
 						
+
 						---
 
 						Applications
@@ -114,6 +126,14 @@
 
 						## Examples
 
+
+						<img class="r-stretch" src="./assets/layers.png"/>
+
+						---
+
+
+						## Examples
+
 						* DNS - TTL
 						* Browser - Etags
 						* Harddrives - Disk Buffer or Cahce Buffer
@@ -133,104 +153,102 @@
 
 						## Caching strategies
 
-						1. Optimal Replacement( Replace the block which is no longer needed in the future.)
-						2. First in First out(FIFO)
-						3. Least recently used (LRU)
-						4. Random Selection
+						1. First in First out(FIFO)
+						2. Least recently used (LRU)
+						3. Least frequently used (LFU)
 
 						---
 
-						## Cache consistency
+						## Cache consistency - write through vs write back
 
-						1. Write through vs write back
+						1. A write-through cache updates the cache and main memory simultaneously,
+						2. In a write-behind cache, memory updates occur asynchronously.
+
 						---
 
 						## Consistent Hashing
 
-						It may be necessary or desirable to split a hash table into several parts, hosted by different servers.
-						
-						The objects (and their keys) are distributed among several servers, hence the name.
-						
-						---
-
-						## What systems are using consistent hashing
-						
-						Dynamo DBB, Memcache, Redis
+						1. It may be necessary or desirable to split a hash table into several parts, hosted by different servers.
+						2. The objects (and their keys) are distributed among several servers, hence the name.
+						3. Many popular products use this technique: Dynamo DB, Memcache, Redis
 						
 						---
 
 						## How
+
+
+						<img class="r-stretch" src="./assets/hashing-Hash-Table.drawio.png"/>
+
 						
-						Hash modulo the number of servers
-						
-						Key | Hash | Hash mod 3
-						carrot cake | xxxx | 0
-						coffee cake | xxxx | 1
-						scone |  xxxx | 2
-						pastel de nata | xxxx | 2
-						muffin | xxxx | 0
-						
+
+						---
+
+						## How
+
+						<img class="r-stretch" src="./assets/hashing-Hash-Table-3.drawio.png"/>
+
 						---
 
 						## Rehashing problem 
 						
-						What happens when the number of server changes. With app servers with no state they can quite happily scale up / down. Doesn't matter really
+						What happens when the number of server changes?
 						
-						Key redistribution
-						
-						Issue with approach above is most hashes modulo N will change, so most keys 
-						
-						Key | Hash | Hash mod 2
-						carrot cake | xxxx | 1
-						coffee cake | xxxx | 0
-						scone |  xxxx | 0
-						pastel de nata | xxxx | 1
-						muffin | xxxx | 0
-						
-						Only 1 key is the same
-						
-						Key | Hash | Hash mod 3
-						carrot cake | xxxx | 0
-						coffee cake | xxxx | 1
-						scone |  xxxx | 2
-						pastel de nata | xxxx | 2
-						muffin | xxxx | 0
+						With app servers with no state they can quite happily scale up / down. With specific data stored on specific machines we need to know the machine the data is in.
+
+						---
+
+						## Back to our example
+
+						<img class="r-stretch" src="./assets/hashing-Hash-Table-2.drawio.png"/>
+
+						Only 2 key are the same! Even keys on servers A and C have moved.
+
+						---
+						## Solution
+
+						We need a distribution scheme which doesn't rely on the number of servers, means key redistribution is minimized.
 
 						---
 
 						## Hash ring
 						
-						Distribition scheme which doesn't rely on the number of servers, means key redistribution is minimized.
 						
-						Introducing the hash ring, this is an abstract circle which you map your servers to.
+						Introducing the hash ring, this is an abstract circle which you map your keys and servers to.
 
-						Key | Hash | Angle
-						carrot cake | xxxx | 72
-						coffee cake | xxxx | 140
-						scone |  xxxx | 230
-						pastel de nata | xxxx | 300
-						muffin | xxxx | 360
+						<img class="r-stretch" src="./assets/hashing-Hashing-Circle-Initial.drawio.png"/>
+
 						
 						---
 
-						## Hash ring 2
+						## Hash Ring 2
 						
 						Now assign your servers to the same ring
 						
-						Key | Hash | Angle
-						carrot cake | xxxx | 72
-						coffee cake | xxxx | 140
-						scone |  xxxx | 230
-						pastel de nata | xxxx | 300
-						muffin | xxxx | 360
-						A | xxxx | 
-						B | xxxx |
-						C | xxxx |
+						<img class="r-stretch" src="./assets/hashing-Hashing-Circle-Servers.drawio.png"/>
 						
-						Resources:
+
+						---
+
+						## Hash Ring 3
+
+						Assign many labels per server to even out distribution
+
+						<img class="r-stretch" src="./assets/hashing-Hashing-Circle-Detailed.drawio.png"/>
+
+						---
+
+						## Loose a server?
+
 						
-						https://medium.com/system-design-blog/consistent-hashing-b9134c8a9062
-						https://www.toptal.com/big-data/consistent-hashing
+
+						<img class="r-stretch" src="./assets/hashing-Hashing-Circle-Detailed-2.drawio.png"/>
+
+						---
+
+						## Fin
+
+						1. Recommendation to listen to this: https://podcasts.apple.com/gb/podcast/episode-65-oh-my-gosh-we-missed-caching-what-a-cache-miss/id467641329?i=1000389586564
+						2. Read this for more on Memcached at facebook: https://www.usenix.org/system/files/conference/nsdi13/nsdi13-final170_update.pdf
 					</textarea>
 				</section>
 			</div>
@@ -268,5 +286,11 @@ Rainbow tables -https://en.wikipedia.org/wiki/Rainbow_table why we use salts
 http://torvalds.cs.longwood.edu/courses/cmsc461/s20/files/josh.pdf 
 https://aws.amazon.com/caching/database-caching/
 https://www.baeldung.com/spring-cache-tutorial
+
+
+Resources:
+						
+https://medium.com/system-design-blog/consistent-hashing-b9134c8a9062
+https://www.toptal.com/big-data/consistent-hashing
 
 -->
