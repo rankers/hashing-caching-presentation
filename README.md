@@ -12,6 +12,8 @@ Running locally
 
 Access on localhost:8080
 
+Press 's' to show speaker view in a separate window 
+
 ## Content
 
 1. See index.html for markdown formatted content. All slides are in line markdown separated text
