@@ -36,7 +36,6 @@
 						<img class="r-stretch" src="./assets/hashing-Hash-Table.drawio.png"/>
 
 						Hash values are usually used to index a fixed-size table called a hash table. Where you can then go and find some data.
-						<!-- <iframe frameborder="0" width="100%" height="500px" src="https://replit.com/@rankers/hashing?embed=true"></iframe> -->
 
 						---
 						
@@ -44,9 +43,10 @@
 						## Properties of a good hashing function
 
 						1. It should be very efficient to compute.
-						2. The function needs to be determinist; you get the same output for the same input each time it is run.
-						3. It should avoid collisions, no two inputs should produce the same output. If collision -> Bucketing.
-						4. For encryption purposes, the output should not give any indication of the input
+						2. The function needs to be determinist
+						3. Evenly distributed
+						4. It should avoid collisions, no two inputs should produce the same output. If collision -> Bucketing.
+						5. For encryption purposes, the output should not give any indication of the input
 
 						---
 
@@ -54,8 +54,8 @@
 
 						<img class="r-stretch" src="./assets/hashing-Hash-Table-Clash.drawio.png"/>
 
-						Hashh Tabble: Best ois O(1)
-						Array Search: O(N)
+						* Hash Table: Best is O(1)
+						* Array Search: O(N)
 
 						---
 
@@ -67,6 +67,8 @@
 						* BLAKE2s
 						* RIPEMD-160
 						
+						Note:
+						RIPEMD was used because it produces the shortest hashes whose uniqueness is still sufficiently assured. This allows Bitcoin addresses to be shorter.
 
 						---
 
@@ -80,6 +82,9 @@
 						* NFTs / Crypto Currency's
 
 						![Dogecoin](./assets/dogecoin.png)
+
+						Note:
+						Proof of work requires a computer to randomly engage in hashing functions until it arrives at an output with the correct minimum amount of leading zeroes. For example, the hash for block #660000, mined on December 4, 2020 is 00000000000000000008eddcaf078f12c69a439dde30dbb5aac3d9d94e9c18f6.2 The block reward for that successful hash was 6.25 BTC.
 
 						---
 
@@ -140,13 +145,13 @@
 						* File system cache / CDNs - Cloudflare, Cloudfront
 						* In-memory application cache - Spring-context, EHCache, just use a map of key / values
 						* Database cache - integrated to db engine, built-in write-through capabilitie
-						* Distributed cache - Memcache / Redis
+						* Distributed cache - Memcached
 
 						---
 
 						## Side track on memoization
 
-						Do fibonacci memoization
+						<iframe frameborder="0" width="100%" height="500px" src="https://replit.com/@rankers/hashing?embed=true"></iframe>
 						https://codeburst.io/understanding-memoization-in-3-minutes-2e58daf33a19
 
 						---
